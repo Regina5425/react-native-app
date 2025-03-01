@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
+import { Input } from './shared/Input/input';
 
 export default function App() {
   return (
@@ -6,8 +7,8 @@ export default function App() {
       <View style={styles.content}>
         <Image source={require('./assets/logo.png')} style={styles.logo} resizeMode='contain' />
         <View style={styles.form}>
-          <TextInput style={styles.input} placeholder="Email" />
-          <TextInput style={styles.input} placeholder="Пароль" />
+          <Input placeholder='Email' />
+          <Input placeholder='Пароль' />
           <Button
             title="Войти"
             color='#6C38CC'
@@ -39,17 +40,6 @@ const styles = StyleSheet.create({
   form: {
     justifyContent: 'space-between',
     gap: 16,
-  },
-  input: {
-    width: 280,
-    height: 58,
-    backgroundColor: '#2E2D3D',
-    borderRadius: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 26,
-    paddingRight: 26,
-    color: '#AFB2BF'
   },
   logo: {
     width: 220,
