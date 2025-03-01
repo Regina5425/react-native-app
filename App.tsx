@@ -1,19 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
 
 export default function App() {
-  // const width = Dimensions.get('window').width;
-  // width: (width / 2) - 5, где 5  - gap (условно если gap = 10, то между двумя элементами 10 / 2)
-  // const {height, width} = useWindowDimensions();
-
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
-        <Text style={styles.textStyle}>Hello Android!</Text>
-        <Button
-          title="Learn More"
-          color="#841584"
-        />
+      <View style={styles.content}>
+        <Image source={require('./assets/logo.png')} style={styles.logo} resizeMode='contain' />
+        <View style={styles.form}>
+          <TextInput style={styles.input} placeholder="Email" />
+          <TextInput style={styles.input} placeholder="Пароль" />
+          <Button
+            title="Войти"
+            color='#6C38CC'
+          />
+        </View>
+        <Text style={styles.subtitle}>Восстановить пароль</Text>
       </View>
     </View>
   );
@@ -21,10 +21,37 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 70,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 50,
+    backgroundColor: '#16171D'
   },
-  textStyle: {color: 'green'},
-  top: {
-    flexDirection: 'row'
+  content: {
+    gap: 50,
+    alignItems: 'center'
+  },
+  subtitle: {
+    color: '#A97BFF',
+    fontSize: 18,
+    fontWeight: 400,
+  },
+  form: {
+    justifyContent: 'space-between',
+    gap: 16,
+  },
+  input: {
+    width: 280,
+    height: 58,
+    backgroundColor: '#2E2D3D',
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 26,
+    paddingRight: 26,
+    color: '#AFB2BF'
+  },
+  logo: {
+    width: 220,
   }
 });
