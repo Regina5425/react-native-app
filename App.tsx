@@ -1,9 +1,27 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, ToastAndroid, Platform } from 'react-native';
 import { Input } from './shared/Input/input';
 import { Colors, Gaps } from './shared/tokens';
 import { Button } from './shared/Button/Button';
 
 export default function App() {
+	const alert = () => {
+		Alert.alert('Ошибка', 'Неверный логин и пароль', [
+			{
+				text: 'Ок',
+				onPress: () => {},
+				style: 'cancel'
+			}
+		]);
+		if(Platform.OS === 'android') {
+			ToastAndroid.showWithGravity(
+				'Неверный логин и пароль',
+				ToastAndroid.SHORT,
+				ToastAndroid.BOTTOM
+			)
+		}
+		
+	}
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -11,7 +29,7 @@ export default function App() {
         <View style={styles.form}>
           <Input placeholder='Email' />
           <Input placeholder='Пароль' isPassword />
-          <Button text="Войти" />
+          <Button text="Войти" onPress={alert} />
         </View>
         <Text style={styles.subtitle}>Восстановить пароль</Text>
       </View>
