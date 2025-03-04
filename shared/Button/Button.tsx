@@ -2,23 +2,21 @@ import { Animated, Pressable, PressableProps, StyleSheet, Text, View } from "rea
 import { Colors, Fonts, Radius } from "../tokens";
 
 export function Button ({text, ...props}: PressableProps & {text: string}) {
-	const animatedValue = new Animated.ValueXY({x: 0, y: 0});
+	const animatedValue = new Animated.Value(100);
+	const color = animatedValue.interpolate({
+		inputRange: [0, 100],
+		outputRange: [Colors.primaryHover, Colors.primary]
+	})
 
 	Animated.timing(animatedValue, {
-		toValue: {
-			x: 100,
-			y: 100
-		},
+		toValue: 0,
 		duration: 2000,
 		useNativeDriver: true
 	}).start()
 
   return (
     <Pressable {...props}>
-      <Animated.View style={{...styles.button, transform: [
-				{translateX: animatedValue.x},
-				{translateY: animatedValue.y}
-			]}}>
+      <Animated.View style={{...styles.button, backgroundColor: color}}>
         <Text style={styles.text}>{text}</Text>
       </Animated.View>
     </Pressable>
@@ -31,7 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: Radius.r10,
     height: 58,
-    backgroundColor: Colors.primary,
   },
   text: {
     fontSize: Fonts.f18,
