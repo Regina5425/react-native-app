@@ -6,6 +6,7 @@ export const Colors = {
   link: '#A97BFF',
   gray: '#AFB2BF',
   white: '#FAFAFA',
+	red: '#CC384E',
 }
 
 export const Gaps = {
