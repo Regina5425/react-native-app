@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Input } from './shared/Input/input';
-import { Colors, Gaps } from './shared/tokens';
-import { Button } from './shared/Button/Button';
+import { Input } from '../shared/Input/input';
+import { Colors, Gaps } from '../shared/tokens';
+import { Button } from '../shared/Button/Button';
 import { useState } from 'react';
-import { ErrorNotification } from './shared/ErrorNotification/ErrorNotification';
+import { ErrorNotification } from '../shared/ErrorNotification/ErrorNotification';
+import { Link } from 'expo-router';
 
-export default function App() {
+export default function Login() {
 	const [error, setError] = useState('');
 
 	const alert = () => {
@@ -16,13 +17,15 @@ export default function App() {
 		<View style={styles.container}>
 			<ErrorNotification error={error} />
 			<View style={styles.content}>
-				<Image source={require('./assets/logo.png')} style={styles.logo} resizeMode="contain" />
+				<Image source={require('../assets/logo.png')} style={styles.logo} resizeMode="contain" />
 				<View style={styles.form}>
 					<Input placeholder="Email" />
 					<Input placeholder="Пароль" isPassword />
 					<Button text="Войти" onPress={alert} />
 				</View>
-				<Text style={styles.subtitle}>Восстановить пароль</Text>
+				<Link style={styles.link} href="/restore">
+					<Text>Восстановить пароль</Text>
+				</Link>
 			</View>
 		</View>
 	);
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
 		gap: Gaps.g50,
 		alignItems: 'center',
 	},
-	subtitle: {
+	link: {
 		color: Colors.link,
 		fontSize: 18,
 		fontWeight: 400,
