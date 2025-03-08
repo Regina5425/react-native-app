@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, TextInput, TextInputProps, View } from 'react-native';
-import { Colors, Radius } from '../tokens';
+import { Colors, Fonts, Radius } from '../tokens';
 import { useState } from 'react';
 import EyeOpenedIcon from '../../assets/icons/eye-opened';
 import EyeClosedIcon from '../../assets/icons/eye-closed';
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 		borderRadius: Radius.r10,
 		fontSize: 16,
 		color: Colors.gray,
-		fontFamily: 'FiraSans',
+		fontFamily: Fonts.regular,
 	},
 	eyeIcon: {
 		position: 'absolute',
