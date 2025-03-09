@@ -2,16 +2,44 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Input } from '../shared/Input/input';
 import { Colors, Gaps } from '../shared/tokens';
 import { Button } from '../shared/Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorNotification } from '../shared/ErrorNotification/ErrorNotification';
 import CustomLink from '../shared/CustomLink/CustomLink';
+import { useAtom } from 'jotai';
+import { loginAtom } from '../entities/auth/model/auth.state';
+import { router } from 'expo-router';
 
 export default function Login() {
 	const [error, setError] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [{ access_token, error: loginError, isLoading }, login] = useAtom(loginAtom);
 
-	const alert = () => {
-		setError('Неверный логин или пароль');
+	const submit = () => {
+		if (!email) {
+			setError('Введите email');
+			return;
+		}
+
+		if (!password) {
+			setError('Введите пароль');
+			return;
+		}
+
+		login({ email, password });
 	};
+
+	useEffect(() => {
+		if (loginError) {
+			setError(loginError);
+		}
+	}, [loginError]);
+
+	useEffect(() => {
+		if (access_token) {
+			router.replace('/');
+		}
+	}, [access_token]);
 
 	return (
 		<View style={styles.container}>
@@ -19,9 +47,9 @@ export default function Login() {
 			<View style={styles.content}>
 				<Image source={require('../assets/logo.png')} style={styles.logo} resizeMode="contain" />
 				<View style={styles.form}>
-					<Input placeholder="Email" />
-					<Input placeholder="Пароль" isPassword />
-					<Button text="Войти" onPress={alert} />
+					<Input placeholder="Email" onChangeText={setEmail} />
+					<Input placeholder="Пароль" isPassword onChangeText={setPassword} />
+					<Button text="Войти" onPress={submit} />
 				</View>
 				<CustomLink href="/restore" text="Восстановить пароль" />
 			</View>
