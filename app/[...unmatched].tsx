@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Colors, Fonts, Gaps } from '../shared/tokens';
-import CustomLink from '../shared/CustomLink/customLink';
+import CustomLink from '../shared/CustomLink/CustomLink';
 
 export default function Unmatched() {
 	return (
