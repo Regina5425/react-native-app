@@ -4,7 +4,7 @@ import { Colors, Gaps } from '../shared/tokens';
 import { Button } from '../shared/Button/Button';
 import { useState } from 'react';
 import { ErrorNotification } from '../shared/ErrorNotification/ErrorNotification';
-import CustomLink from '../shared/CustomLink/customLink';
+import CustomLink from '../shared/CustomLink/CustomLink';
 
 export default function Login() {
 	const [error, setError] = useState('');
