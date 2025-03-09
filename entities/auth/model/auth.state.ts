@@ -30,7 +30,6 @@ export const loginAtom = atom(
 			error: null,
 		});
 		try {
-			await new Promise<void>((resolve) => setTimeout(() => resolve(), 2000));
 			const { data } = await axios.post<LoginResponse>(API.login, {
 				email,
 				password,
