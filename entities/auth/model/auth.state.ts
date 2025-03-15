@@ -22,7 +22,9 @@ const storage = createJSONStorage<AuthState>(() => AsyncStorage);
 export const authAtom = atomWithStorage<AuthState>('auth', INITIAL_STATE, storage);
 
 export const loginAtom = atom(
-	(get) => get(authAtom),
+	async (get) => {
+		return get(authAtom);
+	},
 	async (_get, set, { email, password }: LoginRequest) => {
 		set(authAtom, {
 			access_token: null,
@@ -35,9 +37,9 @@ export const loginAtom = atom(
 				password,
 			});
 			set(authAtom, {
-				access_token: data.access_token,
-				// access_token:
-				// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhc2lhQHB1cGtpbi5ydSIsImlkIjoxNDk4LCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0MjA1Njk4MH0.U88AoNZex_HiDHY4fCXdoNc7b0BKZriUajrG61njIx0',
+				// access_token: data.access_token,
+				access_token:
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhc2lhQHB1cGtpbi5ydSIsImlkIjoxNDk4LCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0MjA1Njk4MH0.U88AoNZex_HiDHY4fCXdoNc7b0BKZriUajrG61njIx0',
 				isLoading: false,
 				error: null,
 			});

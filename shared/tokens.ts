@@ -11,12 +11,14 @@ export const Colors = {
 };
 
 export const Gaps = {
+	g8: 8,
 	g16: 16,
 	g50: 50,
 };
 
 export const Radius = {
 	r10: 10,
+	r30: 30,
 };
 
 export const Fonts = {
