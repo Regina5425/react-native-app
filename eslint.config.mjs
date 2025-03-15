@@ -40,7 +40,7 @@ export default [
 					semi: true,
 					trailingComma: 'all',
 					bracketSpacing: true,
-					printWidth: 200,
+					printWidth: 150,
 					endOfLine: 'auto',
 				},
 			],

@@ -6,18 +6,18 @@ import { API } from '../api/api';
 import { atom } from 'jotai';
 
 export interface AuthState {
-	access_token: string | null;
 	isLoading: boolean;
 	error: string | null;
+	access_token: string | null;
 }
-
-const storage = createJSONStorage<AuthState>(() => AsyncStorage);
 
 const INITIAL_STATE: AuthState = {
 	access_token: null,
 	isLoading: false,
 	error: null,
 };
+
+const storage = createJSONStorage<AuthState>(() => AsyncStorage);
 
 export const authAtom = atomWithStorage<AuthState>('auth', INITIAL_STATE, storage);
 
@@ -36,6 +36,8 @@ export const loginAtom = atom(
 			});
 			set(authAtom, {
 				access_token: data.access_token,
+				// access_token:
+				// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhc2lhQHB1cGtpbi5ydSIsImlkIjoxNDk4LCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0MjA1Njk4MH0.U88AoNZex_HiDHY4fCXdoNc7b0BKZriUajrG61njIx0',
 				isLoading: false,
 				error: null,
 			});
