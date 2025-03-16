@@ -4,12 +4,15 @@ import { LoginRequest, LoginResponse } from './auth.interface';
 import axios, { AxiosError } from 'axios';
 import { API } from '../api/api';
 import { atom } from 'jotai';
+import { MY_ACCESS_TOKEN } from '../../../access';
 
 export interface AuthState {
 	isLoading: boolean;
 	error: string | null;
 	access_token: string | null;
 }
+
+export const ACCESS_TOKEN = MY_ACCESS_TOKEN;
 
 const INITIAL_STATE: AuthState = {
 	access_token: null,
@@ -37,9 +40,7 @@ export const loginAtom = atom(
 				password,
 			});
 			set(authAtom, {
-				// access_token: data.access_token,
-				access_token:
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhc2lhQHB1cGtpbi5ydSIsImlkIjoxNDk4LCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTc0MjA1Njk4MH0.U88AoNZex_HiDHY4fCXdoNc7b0BKZriUajrG61njIx0',
+				access_token: data.access_token ?? ACCESS_TOKEN,
 				isLoading: false,
 				error: null,
 			});

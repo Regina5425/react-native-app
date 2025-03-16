@@ -17,17 +17,17 @@ const MENU = [
 	{
 		text: 'Профиль',
 		icon: <ProfileIcon />,
-		path: '/profile',
+		path: 'profile',
 	},
 	{
 		text: 'Курсы',
 		icon: <CoursesIcon />,
-		path: '/(app)',
+		path: 'index',
 	},
 	{
 		text: 'Клуб',
 		icon: <ClubIcon />,
-		path: '/club',
+		path: 'club',
 	},
 ];
 
@@ -45,7 +45,7 @@ export function CustomDrawer(props: DrawerContentComponentProps) {
 				<CloseDrawer {...props.navigation} />
 				<UserMenu user={profile.profile} />
 				{MENU.map((item) => (
-					<MenuItem key={item.path} navigation={props.navigation} {...item} />
+					<MenuItem key={item.path} drawer={props} {...item} />
 				))}
 			</View>
 			<View style={styles.footer}>
