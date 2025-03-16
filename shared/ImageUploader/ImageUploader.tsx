@@ -15,9 +15,10 @@ interface UploadResponse {
 
 type Props = {
 	onUpload: (uri: string) => void;
+	onError?: (error: string) => void;
 };
 
-export function ImageUploader({ onUpload }: Props) {
+export function ImageUploader({ onUpload, onError }: Props) {
 	const [libraryPermission, requestLibraryPermission] = useMediaLibraryPermissions();
 
 	const verifyLibraryPermissions = async () => {
@@ -40,16 +41,14 @@ export function ImageUploader({ onUpload }: Props) {
 			type: 'image/jpeg',
 		});
 
-		console.log('FormData:', formData);
-
 		try {
 			const { data } = await axios.post<UploadResponse>(FILE_API.uploadImage, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			console.log(data);
 			onUpload(data?.urls.original);
+			return data?.urls.original;
 		} catch (e) {
 			if (e instanceof AxiosError) {
 				console.error(e);
@@ -59,12 +58,6 @@ export function ImageUploader({ onUpload }: Props) {
 	};
 
 	const pickImage = async () => {
-		const isPermissionGranted = await verifyLibraryPermissions();
-
-		if (!isPermissionGranted) {
-			return;
-		}
-
 		const result = await launchImageLibraryAsync({
 			mediaTypes: ['images'],
 			allowsEditing: true,
@@ -72,14 +65,35 @@ export function ImageUploader({ onUpload }: Props) {
 			quality: 0.5,
 		});
 		if (!result.assets) {
+			return null;
+		}
+		return result.assets[0];
+	};
+
+	const upload = async () => {
+		const isPermissionGranted = await verifyLibraryPermissions();
+
+		if (!isPermissionGranted) {
+			onError?.('Недостаточно прав');
 			return;
 		}
-		await uploadToServer(result.assets[0].uri, result.assets[0].fileName ?? '');
-		onUpload(result.assets[0].uri);
+
+		const asset = await pickImage();
+		if (!asset) {
+			onError?.('Файл не выбран');
+			return;
+		}
+
+		const uploadedUrl = await uploadToServer(asset.uri, asset.fileName ?? '');
+		if (!uploadedUrl) {
+			onError?.('Не удалось загрузить изображение');
+			return;
+		}
+		onUpload(uploadedUrl);
 	};
 
 	return (
-		<Pressable onPress={pickImage}>
+		<Pressable onPress={upload}>
 			<View style={styles.wrapper}>
 				<UploadIcon />
 				<Text style={styles.text}>Загрузить изображение</Text>

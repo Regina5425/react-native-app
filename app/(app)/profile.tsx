@@ -1,24 +1,16 @@
 import { useState } from 'react';
-import { Image, View, StyleSheet } from 'react-native';
-import { Gaps, Radius } from '../../shared/tokens';
+import { View, StyleSheet } from 'react-native';
+import { Gaps } from '../../shared/tokens';
 import { ImageUploader } from '../../shared/ImageUploader/ImageUploader';
+import { Avatar } from '../../entities/user/ui/Avatar/Avatar';
 
 export default function Profile() {
 	const [image, setImage] = useState<string | null>(null);
 
 	return (
 		<View style={styles.container}>
-			{image ? (
-				<Image
-					source={{
-						uri: image,
-					}}
-					style={styles.image}
-				/>
-			) : (
-				<Image style={styles.image} source={require('../../assets/images/avatar.png')} />
-			)}
-			<ImageUploader onUpload={setImage} />
+			<Avatar image={image} />
+			<ImageUploader onUpload={setImage} onError={(e) => console.log(e)} />
 		</View>
 	);
 }
@@ -30,10 +22,5 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 30,
 		paddingVertical: 20,
-	},
-	image: {
-		width: 70,
-		height: 70,
-		borderRadius: Radius.r30,
 	},
 });
