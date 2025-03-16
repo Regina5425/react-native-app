@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { Colors, Fonts } from '../../shared/tokens';
 import { MenuButton } from '../../features/layout/ui/MenuButton/MenuButton';
-import { CustomDrawer } from '../../entities/layout/ui/CustomDrawer/CustomDrawer';
+import { CustomDrawer } from '../../widget/layout/ui/CustomDrawer/CustomDrawer';
 
 export default function AppLayout() {
 	const { access_token } = useAtomValue(authAtom);

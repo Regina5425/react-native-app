@@ -27,7 +27,13 @@
 			"bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+			[
+				"expo-font",
+				{
+					"fonts": ["./assets/fonts/FiraSans-Regular.ttf", "./assets/fonts/FiraSans-SemiBold.ttf"]
+				}
+			]
     ],
 		"scheme": "react-native-app-scheme"
   }

@@ -9,7 +9,7 @@ export function UserMenu({ user }: { user: User | null }) {
 
 	return (
 		<View style={styles.container}>
-			{/* {user?.photo ? (
+			{user?.photo ? (
 				<Image
 					style={styles.image}
 					source={{
@@ -17,9 +17,8 @@ export function UserMenu({ user }: { user: User | null }) {
 					}}
 				/>
 			) : (
-				<Image source={require('../../../../assets/images/avatar.png')} />
-			)} */}
-			<Image style={styles.image} source={require('../../../../assets/images/avatar.png')} />
+				<Image style={styles.image} source={require('../../../../assets/images/avatar.png')} />
+			)}
 			<Text style={styles.name}>
 				{user.name} {user.surname}
 			</Text>

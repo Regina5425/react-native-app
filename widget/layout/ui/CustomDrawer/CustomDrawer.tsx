@@ -4,14 +4,14 @@ import { Colors, Gaps } from '../../../../shared/tokens';
 import CustomLink from '../../../../shared/CustomLink/CustomLink';
 import { CloseDrawer } from '../../../../features/layout/ui/CloseDrawer/CloseDrawer';
 import { useAtom, useSetAtom } from 'jotai';
-import { logoutAtom } from '../../../auth/model/auth.state';
-import { loadProfileAtom } from '../../../user/model/user.state';
+import { logoutAtom } from '../../../../entities/auth/model/auth.state';
+import { loadProfileAtom } from '../../../../entities/user/model/user.state';
 import { useEffect } from 'react';
-import { UserMenu } from '../../../user/ui/UserMenu/UserMenu';
+import { UserMenu } from '../../../../entities/user/ui/UserMenu/UserMenu';
 import ProfileIcon from '../../../../assets/icons/menu/profile';
 import CoursesIcon from '../../../../assets/icons/menu/courses';
 import ClubIcon from '../../../../assets/icons/menu/club';
-import { MenuItem } from '../MenuItem/MenuItem';
+import { MenuItem } from '../../../../entities/layout/ui/MenuItem/MenuItem';
 
 const MENU = [
 	{
