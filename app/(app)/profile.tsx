@@ -1,86 +1,39 @@
 import { useState } from 'react';
-import { Alert, Image, Text, View } from 'react-native';
-import { launchCameraAsync, useCameraPermissions, PermissionStatus, launchImageLibraryAsync, useMediaLibraryPermissions } from 'expo-image-picker';
-import { Button } from '../../shared/Button/Button';
+import { Image, View, StyleSheet } from 'react-native';
+import { Gaps, Radius } from '../../shared/tokens';
+import { ImageUploader } from '../../shared/ImageUploader/ImageUploader';
 
 export default function Profile() {
 	const [image, setImage] = useState<string | null>(null);
-	const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-	const [libraryPermission, requestLibraryPermission] = useMediaLibraryPermissions();
-
-	const verifyCameraPermissions = async () => {
-		if (cameraPermission?.status === PermissionStatus.UNDETERMINED) {
-			const res = await requestCameraPermission();
-			return res.granted;
-		}
-		if (cameraPermission?.status === PermissionStatus.DENIED) {
-			Alert.alert('Недостаточно прав для доступа к камере');
-			return false;
-		}
-		return true;
-	};
-
-	const verifyLibraryPermissions = async () => {
-		if (libraryPermission?.status === PermissionStatus.UNDETERMINED) {
-			const res = await requestLibraryPermission();
-			return res.granted;
-		}
-		if (libraryPermission?.status === PermissionStatus.DENIED) {
-			Alert.alert('Недостаточно прав для доступа к камере');
-			return false;
-		}
-		return true;
-	};
-
-	const pickCameraAvatar = async () => {
-		const isPermissionGranted = await verifyCameraPermissions();
-
-		if (!isPermissionGranted) {
-			return;
-		}
-
-		const result = await launchCameraAsync({
-			mediaTypes: ['images'],
-			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 0.5,
-		});
-		return result;
-	};
-
-	const pickImageAvatar = async () => {
-		const isPermissionGranted = await verifyLibraryPermissions();
-
-		if (!isPermissionGranted) {
-			return;
-		}
-
-		const result = await launchImageLibraryAsync({
-			mediaTypes: ['images'],
-			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 0.5,
-		});
-		if (!result.assets) {
-			return;
-		}
-		setImage(result.assets[0].uri);
-	};
 
 	return (
-		<View>
-			<Text>profile</Text>
-			<Button text="Снять изображение" onPress={pickCameraAvatar} />
-			<Button text="Выбрать изображение" onPress={pickImageAvatar} />
-			{image && (
+		<View style={styles.container}>
+			{image ? (
 				<Image
 					source={{
 						uri: image,
-						width: 100,
-						height: 100,
 					}}
+					style={styles.image}
 				/>
+			) : (
+				<Image style={styles.image} source={require('../../assets/images/avatar.png')} />
 			)}
+			<ImageUploader onUpload={setImage} />
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		gap: Gaps.g20,
+		alignItems: 'center',
+		paddingHorizontal: 30,
+		paddingVertical: 20,
+	},
+	image: {
+		width: 70,
+		height: 70,
+		borderRadius: Radius.r30,
+	},
+});
