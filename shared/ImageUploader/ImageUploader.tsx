@@ -2,6 +2,16 @@ import { useMediaLibraryPermissions, PermissionStatus, launchImageLibraryAsync }
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import UploadIcon from '../../assets/icons/uploaad';
 import { Colors, Fonts, Gaps, Radius } from '../tokens';
+import FormData from 'form-data';
+import axios, { AxiosError } from 'axios';
+import { FILE_API } from '../api';
+
+interface UploadResponse {
+	urls: {
+		original: string;
+		webP: string;
+	};
+}
 
 type Props = {
 	onUpload: (uri: string) => void;
@@ -22,6 +32,32 @@ export function ImageUploader({ onUpload }: Props) {
 		return true;
 	};
 
+	const uploadToServer = async (url: string, fileName: string) => {
+		const formData = new FormData();
+		formData.append('files', {
+			uri: url,
+			name: fileName,
+			type: 'image/jpeg',
+		});
+
+		console.log('FormData:', formData);
+
+		try {
+			const { data } = await axios.post<UploadResponse>(FILE_API.uploadImage, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+			console.log(data);
+			onUpload(data?.urls.original);
+		} catch (e) {
+			if (e instanceof AxiosError) {
+				console.error(e);
+			}
+			return null;
+		}
+	};
+
 	const pickImage = async () => {
 		const isPermissionGranted = await verifyLibraryPermissions();
 
@@ -38,6 +74,7 @@ export function ImageUploader({ onUpload }: Props) {
 		if (!result.assets) {
 			return;
 		}
+		await uploadToServer(result.assets[0].uri, result.assets[0].fileName ?? '');
 		onUpload(result.assets[0].uri);
 	};
 
