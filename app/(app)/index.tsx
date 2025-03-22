@@ -1,31 +1,25 @@
-// import { useAtomValue } from 'jotai';
-import { Text, View } from 'react-native';
-import { Button } from '../../shared/Button/Button';
-import { useSetAtom } from 'jotai';
-import { logoutAtom } from '../../entities/auth/model/auth.state';
-// import { authAtom } from '../../entities/auth/model/auth.state';
-// import { useEffect } from 'react';
-// import { router, useRootNavigationState } from 'expo-router';
+import { ScrollView, StyleSheet } from 'react-native';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { courseAtom, loadCourseAtom } from '../../entities/course/model/course.state';
+import { useEffect } from 'react';
+import { CourseCard } from '../../entities/course/ui/CourseCard/CourseCard';
+import { Gaps } from '../../shared/tokens';
 
 export default function MyCourses() {
-	// 1 вариант редиректа
-	// const { access_token } = useAtomValue(authAtom);
-	// const state = useRootNavigationState();
+	const { courses, isLoading, error } = useAtomValue(courseAtom);
+	const loadCourses = useSetAtom(loadCourseAtom);
 
-	// useEffect(() => {
-	// 	if (!state?.key) return;
+	useEffect(() => {
+		loadCourses();
+	}, []);
 
-	// 	if (!access_token) {
-	// 		router.replace('/login');
-	// 	}
-	// }, [access_token, state]);
-
-	const logout = useSetAtom(logoutAtom);
-
-	return (
-		<View>
-			<Text>index</Text>
-			<Button text="Выйти" onPress={logout} />
-		</View>
-	);
+	return <ScrollView style={styles.course}>{courses.length > 0 && courses.map((course) => <CourseCard key={course.id} {...course} />)}</ScrollView>;
 }
+
+const styles = StyleSheet.create({
+	course: {
+		flexDirection: 'column',
+		gap: Gaps.g20,
+		padding: 20,
+	},
+});
