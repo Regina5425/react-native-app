@@ -40,4 +40,5 @@ export enum TariffType {
 
 export interface CoursesTypeResponse {
 	my: StudentCourseDescription[];
+	other: StudentCourseDescription[];
 }

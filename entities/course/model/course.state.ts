@@ -5,6 +5,7 @@ import { API } from '../api/api';
 import { CoursesTypeResponse, StudentCourseDescription } from './course.model';
 
 export const courseAtom = atom<CourseState>({
+	myCourses: [],
 	courses: [],
 	isLoading: false,
 	error: null,
@@ -18,6 +19,7 @@ export const loadCourseAtom = atom(
 		try {
 			const { access_token } = await get(authAtom);
 			set(courseAtom, {
+				myCourses: [],
 				isLoading: true,
 				courses: [],
 				error: null,
@@ -31,13 +33,15 @@ export const loadCourseAtom = atom(
 				},
 			});
 			set(courseAtom, {
+				myCourses: data.my,
 				isLoading: false,
-				courses: data.my,
+				courses: data.other,
 				error: null,
 			});
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				set(courseAtom, {
+					myCourses: [],
 					isLoading: false,
 					courses: [],
 					error: error.response?.data.message,
@@ -48,6 +52,7 @@ export const loadCourseAtom = atom(
 );
 
 export interface CourseState {
+	myCourses: StudentCourseDescription[];
 	courses: StudentCourseDescription[];
 	isLoading: boolean;
 	error: string | null;
